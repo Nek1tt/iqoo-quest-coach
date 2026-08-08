@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>iQOO Quest Coach — Interactive Concept Prototype</title>
+<style>
+:root{
+  --bg:#060b18;--panel:#111b33;--panel2:#0c1529;--line:#22385f;--text:#f5f7ff;--muted:#96a4bf;
+  --cyan:#37c7ff;--purple:#8b5cf6;--green:#39dfbd;--amber:#ffbd49;--red:#ff5c78;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 80% 5%,#10133c 0,#060b18 32%,#050913 100%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button{font:inherit}.shell{width:min(1480px,100%);margin:0 auto;padding:20px 24px 32px}.topline{height:5px;background:linear-gradient(90deg,var(--cyan),var(--purple));position:fixed;top:0;left:0;right:0;z-index:20}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin:10px 0 18px}.brand{display:flex;align-items:center;gap:14px}.logo{font-weight:900;letter-spacing:.18em;font-size:22px}.brandname{font-size:20px;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;color:transparent}.tagline{color:var(--muted);font-size:13px;margin-top:4px}.badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.badge{border:1px solid var(--line);background:#0b1328;border-radius:999px;padding:7px 11px;color:var(--muted);font-size:12px}.badge.demo{border-color:var(--amber);color:var(--amber)}
+.toolbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px}.tabs,.modes{display:flex;background:#0c1428;border:1px solid var(--line);padding:4px;border-radius:12px;gap:4px}.tab,.mode{border:0;background:transparent;color:var(--muted);padding:10px 16px;border-radius:9px;cursor:pointer;font-weight:700}.tab.active{background:#15213c;color:white}.mode.active.simple{background:linear-gradient(90deg,#12304c,#183159);color:var(--cyan)}.mode.active.pro{background:linear-gradient(90deg,#251843,#1b2453);color:#b98cff}.tab:hover,.mode:hover{color:white}
+.page{display:none}.page.active{display:block}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.card{background:linear-gradient(180deg,rgba(20,31,58,.94),rgba(12,20,40,.96));border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 16px 42px rgba(0,0,0,.18)}.card h2,.card h3{margin:0}.eyebrow{color:var(--cyan);text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:.11em}.title{font-size:28px;font-weight:850;line-height:1.12;margin-top:8px}.subtitle{color:var(--muted);margin-top:8px;line-height:1.45}.match-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}.hero{display:flex;align-items:center;gap:12px}.avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(145deg,#406fd4,#5634a4);display:grid;place-items:center;font-size:26px;font-weight:900}.hero-meta b{font-size:18px}.hero-meta div{color:var(--muted);font-size:12px;margin-top:4px}.result{font-size:13px;color:var(--red);font-weight:800;border:1px solid rgba(255,92,120,.4);padding:7px 10px;border-radius:10px;background:rgba(255,92,120,.07)}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.metric{background:#111d37;border:1px solid var(--line);border-radius:12px;padding:13px}.metric label{display:block;color:var(--muted);font-size:11px}.metric strong{font-size:22px;display:block;margin-top:5px}.c-cyan{color:var(--cyan)}.c-purple{color:#9f74ff}.c-green{color:var(--green)}.c-amber{color:var(--amber)}.c-red{color:var(--red)}
+.issue{margin-top:14px;border:1px solid rgba(139,92,246,.72);background:linear-gradient(135deg,#15152f,#10172e);border-radius:14px;padding:18px}.issue-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.issue h3{font-size:20px}.confidence{font-size:11px;color:#c8b6ff;background:#241848;border:1px solid #6846c5;border-radius:999px;padding:6px 9px}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.ev{border-left:3px solid var(--cyan);padding:6px 9px;background:#0b1428;border-radius:5px}.ev small{color:var(--muted);display:block}.ev b{display:block;margin-top:4px}.cta-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#111d37;color:white;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:800}.btn.primary{background:linear-gradient(90deg,#7246ff,#8c4dff);border-color:#9b72ff}.btn.cyan{border-color:#37c7ff;color:#37c7ff}.btn:hover{transform:translateY(-1px)}
+.questbox{border:1px solid rgba(255,189,73,.7);background:#18192b;border-radius:14px;padding:17px;margin-top:14px}.questbox .qtitle{color:var(--amber);font-weight:900;font-size:18px}.questbox p{color:#dfe5f4;line-height:1.5}.progressbar{height:10px;background:#0a1224;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:11px}.progressbar>span{height:100%;display:block;width:62%;background:linear-gradient(90deg,var(--cyan),var(--purple))}.big-kpi{font-size:40px;font-weight:900;margin:4px 0}.small-note{font-size:11px;color:var(--muted);line-height:1.45}.simple-only{}.pro-only{display:none}.pro .simple-only{display:none!important}.pro .pro-only{display:block}.pro .pro-flex{display:flex}.pro .pro-grid{display:grid}
+.side-stack{display:grid;gap:16px}.mini-list{display:grid;gap:9px;margin-top:12px}.mini-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(39,59,96,.7);font-size:13px}.mini-row:last-child{border-bottom:0}.mini-row span{color:var(--muted)}
+.video-grid{display:grid;grid-template-columns:1.45fr .75fr;gap:16px}.video-frame{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#02040a}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.source-note{font-size:11px;color:var(--muted);margin-top:9px}.timeline{margin-top:16px}.timeline-line{height:6px;background:#17233e;border-radius:999px;position:relative;margin:23px 6px}.mark{width:14px;height:14px;border-radius:50%;position:absolute;top:-4px;background:var(--purple);box-shadow:0 0 0 4px rgba(139,92,246,.15)}.mark.active{background:var(--red);box-shadow:0 0 0 5px rgba(255,92,120,.13)}.m1{left:18%}.m2{left:49%}.m3{left:74%}.timeline-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}.incident-list{display:grid;gap:10px;margin-top:10px}.incident{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;grid-template-columns:80px 1fr auto;gap:10px;align-items:center;cursor:pointer}.incident.active{border-color:var(--purple);background:#15172e}.time{font-weight:900;color:var(--cyan)}.severity{font-size:11px;padding:5px 7px;border-radius:7px;background:rgba(255,92,120,.09);color:var(--red)}
+.chart{height:170px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#101a33,#091225);position:relative;overflow:hidden;margin-top:12px}.chart svg{width:100%;height:100%}.legend{display:flex;gap:14px;color:var(--muted);font-size:11px;margin-top:9px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}.table th{color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line)}.table td{padding:8px;border-bottom:1px solid rgba(35,56,95,.5)}
+.footer-note{margin-top:16px;background:#0b1428;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--muted);font-size:11px;line-height:1.5}.footer-note b{color:var(--amber)}
+@media(max-width:900px){.hero-grid,.video-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(2,1fr)}header{flex-direction:column}.toolbar{align-items:flex-start;flex-direction:column}.tabs{overflow:auto;width:100%}.tab{white-space:nowrap}.evidence{grid-template-columns:1fr}.shell{padding:16px 12px 26px}}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<div class="shell" id="app">
+  <header>
+    <div>
+      <div class="brand"><span class="logo">iQOO</span><span class="brandname">Quest Coach</span></div>
+      <div class="tagline">Post-match AI coaching concept for Mobile Legends: Bang Bang</div>
+    </div>
+    <div class="badges"><span class="badge demo">Interactive concept prototype</span><span class="badge">Harith • Gold Lane</span><span class="badge">Ranked scenario</span></div>
+  </header>
+
+  <div class="toolbar">
+    <nav class="tabs">
+      <button class="tab active" data-page="summary">Summary</button>
+      <button class="tab" data-page="replay">Replay</button>
+      <button class="tab" data-page="quest">Quest</button>
+      <button class="tab" data-page="progress">Progress</button>
+    </nav>
+    <div class="modes">
+      <button class="mode active simple" data-mode="simple">Simple</button>
+      <button class="mode pro" data-mode="pro">Pro</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="page active" id="summary">
+      <div class="hero-grid">
+        <div class="card">
+          <div class="match-head">
+            <div class="hero"><div class="avatar">H</div><div class="hero-meta"><b>Harith</b><div>Gold Lane • Ranked • 18:42</div></div></div>
+            <div class="result">DEFEAT</div>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><label>KDA</label><strong class="c-cyan">6 / 4 / 8</strong></div>
+            <div class="metric"><label>Teamfight participation</label><strong class="c-green">68%</strong></div>
+            <div class="metric"><label>Combat FPS proxy</label><strong class="c-green">59.2</strong></div>
+            <div class="metric"><label>Device stability</label><strong class="c-purple">89</strong></div>
+          </div>
+          <div class="issue">
+            <div class="issue-head"><div><div class="eyebrow">Primary issue</div><h3>Early teamfight entry</h3></div><span class="confidence">High confidence</span></div>
+            <p class="subtitle">В трех значимых эпизодах Harith начинал полноценный engage раньше основной части команды. Это повторяемый паттерн, а не единичная смерть.</p>
+            <div class="evidence">
+              <div class="ev"><small>Средний entry delta</small><b class="c-red">−1.8 s</b></div>
+              <div class="ev"><small>Early entries</small><b>3 эпизода</b></div>
+              <div class="ev"><small>Deaths after engage</small><b>2 эпизода</b></div>
+            </div>
+            <div class="cta-row"><button class="btn primary jump" data-page="quest">Open Next Quest</button><button class="btn cyan jump" data-page="replay">Replay evidence</button></div>
+          </div>
+          <div class="pro-only">
+            <div class="metric-grid" style="margin-top:14px">
+              <div class="metric"><label>Mechanics</label><strong>74</strong></div><div class="metric"><label>Decisions</label><strong class="c-amber">61</strong></div><div class="metric"><label>Positioning</label><strong class="c-red">58</strong></div><div class="metric"><label>Farm efficiency</label><strong>81%</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="side-stack">
+          <div class="card">
+            <div class="eyebrow">Next Quest</div><div class="title">Controlled Entry</div>
+            <p class="subtitle">Не начинай полный dash-loop, пока frontline не вошел в бой или рядом нет минимум двух союзников.</p>
+            <div class="questbox"><div class="qtitle">Target: ≤1 early entry / match</div><div class="progressbar"><span></span></div><div class="small-note" style="margin-top:9px">Baseline: 3.0 → Pilot target: ≤1.0</div></div>
+          </div>
+          <div class="card simple-only"><div class="eyebrow">Simple takeaway</div><div class="big-kpi c-cyan">1</div><div>главный фокус на следующую игру</div><p class="small-note">Никаких 15 советов: одна контролируемая ошибка и один критерий успеха.</p></div>
+          <div class="card pro-only"><div class="eyebrow">Behavior layer</div><div class="mini-list"><div class="mini-row"><span>Reaction proxy</span><b>347 ms</b></div><div class="mini-row"><span>Tap-frequency: skill zone</span><b>3.8 taps/s</b></div><div class="mini-row"><span>Tap-frequency: movement zone</span><b>2.1 taps/s</b></div><div class="mini-row"><span>Item build timing</span><b>On baseline</b></div></div><div class="small-note" style="margin-top:8px">Demo values: product behavior is shown; automated extraction is part of production pipeline.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="replay">
+      <div class="video-grid">
+        <div class="card">
+          <div class="eyebrow">Replay evidence</div><div class="title">Harith gameplay reference</div><p class="subtitle">Видео используется как визуальный материал продуктового прототипа. Метрики справа — демонстрационный сценарий концепции и не заявлены как автоматически извлеченные из этого ролика.</p>
+          <div class="video-frame"><iframe src="https://www.youtube.com/embed/Q7SL_P7V__w?rel=0" title="Harith Gameplay MLBB" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+          <div class="source-note">Public gameplay reference: “UPDATE! TUTORIAL, TIPS LANING & BUILD HARITH 1 HIT 2026 | HARITH GAMEPLAY - MLBB”, Harith Zoldyck, YouTube.</div>
+          <div class="timeline"><div class="timeline-labels"><span>00:00</span><span>Match timeline / demo incidents</span><span>18:42</span></div><div class="timeline-line"><span class="mark m1"></span><span class="mark active m2"></span><span class="mark m3"></span></div></div>
+        </div>
+        <div class="side-stack">
+          <div class="card"><div class="eyebrow">Selected incident</div><div class="title">12:47 — Early engage</div><div class="mini-list"><div class="mini-row"><span>Harith entry</span><b>12:47.2</b></div><div class="mini-row"><span>Frontline entry</span><b>12:49.1</b></div><div class="mini-row"><span>Entry delta</span><b class="c-red">−1.9 s</b></div><div class="mini-row"><span>Allies nearby</span><b>1</b></div><div class="mini-row"><span>Enemies in range</span><b>3</b></div><div class="mini-row"><span>Device factor</span><b class="c-amber">Minor</b></div></div></div>
+          <div class="card pro-only"><div class="eyebrow">Incident diagnostics</div><div class="mini-list"><div class="mini-row"><span>Reaction proxy</span><b>+26 ms vs baseline</b></div><div class="mini-row"><span>FPS proxy</span><b>59 → 52</b></div><div class="mini-row"><span>Thermal headroom</span><b>Normal</b></div><div class="mini-row"><span>Cause</span><b class="c-purple">Decision + positioning</b></div></div></div>
+          <div class="card simple-only"><div class="eyebrow">Why it matters</div><p class="subtitle">Игрок начал бой почти на две секунды раньше команды. В Simple Mode этого достаточно: показать эпизод, объяснить причину и дать один Quest.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="quest">
+      <div class="hero-grid">
+        <div class="card"><div class="eyebrow">Next Quest</div><div class="title">Controlled Entry</div><p class="subtitle">Quest переводит вывод аналитики в одно проверяемое действие.</p>
+          <div class="questbox"><div class="qtitle">Не более одного Early Entry за матч</div><p>Начинай полноценный engage только когда выполнено хотя бы одно условие:</p><div class="mini-list"><div class="mini-row"><span>Условие A</span><b>frontline уже в combat range</b></div><div class="mini-row"><span>Условие B</span><b>≥2 союзников рядом</b></div><div class="mini-row"><span>Условие C</span><b>есть безопасный путь выхода</b></div></div></div>
+          <div class="metric-grid"><div class="metric"><label>Baseline</label><strong class="c-red">3.0</strong></div><div class="metric"><label>Target</label><strong class="c-green">≤1.0</strong></div><div class="metric"><label>Check</label><strong class="c-cyan">Auto</strong></div><div class="metric"><label>Window</label><strong>1 match</strong></div></div>
+          <div class="pro-only"><table class="table"><thead><tr><th>Rule</th><th>Evidence</th><th>Weight</th></tr></thead><tbody><tr><td>Entry before frontline</td><td>Entry delta &lt; −1.0 s</td><td>High</td></tr><tr><td>Low ally support</td><td>&lt;2 allies in combat zone</td><td>High</td></tr><tr><td>Device instability</td><td>FPS proxy / thermal context</td><td>Contributing</td></tr></tbody></table></div>
+        </div>
+        <div class="side-stack"><div class="card"><div class="eyebrow">Verification logic</div><div class="title">Quest is measurable</div><p class="subtitle">После следующего матча движок повторно считает этот же паттерн. Если частота устойчиво снижается — фокус меняется.</p><div class="progressbar"><span style="width:33%"></span></div><div class="small-note" style="margin-top:9px">3.0 baseline → target ≤1.0</div></div><div class="card"><div class="eyebrow">No live coaching</div><p class="subtitle">Во время ranked продукт только собирает данные. Тактические рекомендации появляются после матча — это снижает риск unfair advantage.</p></div></div>
+      </div>
+    </section>
+
+    <section class="page" id="progress">
+      <div class="hero-grid">
+        <div class="card"><div class="eyebrow">Progress tracking</div><div class="title">Проверяем изменение паттерна</div><p class="subtitle">Главный результат — не только win rate, а снижение повторяемой диагностированной ошибки.</p>
+          <div class="chart"><svg viewBox="0 0 800 170" preserveAspectRatio="none"><line x1="0" y1="135" x2="800" y2="135" stroke="#23375d"/><line x1="0" y1="90" x2="800" y2="90" stroke="#182946"/><line x1="0" y1="45" x2="800" y2="45" stroke="#182946"/><polyline fill="none" stroke="#8b5cf6" stroke-width="4" points="20,35 100,55 180,50 260,78 340,70 420,92 500,90 580,112 660,102 760,118"/><circle cx="760" cy="118" r="6" fill="#39dfbd"/></svg></div><div class="legend"><span><i class="dot" style="background:#8b5cf6"></i>Early entries / match</span><span><i class="dot" style="background:#39dfbd"></i>Current: 1.4</span></div>
+          <div class="metric-grid"><div class="metric"><label>Early entries</label><strong class="c-purple">1.4</strong></div><div class="metric"><label>Quest completion</label><strong class="c-cyan">62%</strong></div><div class="metric"><label>Deaths after engage</label><strong class="c-red">1.1</strong></div><div class="metric"><label>Win rate</label><strong class="c-green">60%</strong></div></div>
+        </div>
+        <div class="side-stack"><div class="card"><div class="eyebrow">Coach takeaway</div><div class="title">Pattern improving</div><p class="subtitle">Early-entry discipline улучшается. Следующий фокус после устойчивого выполнения Quest — сохранение objective discipline после выигранного teamfight.</p></div><div class="card pro-only"><div class="eyebrow">Last 4 matches</div><table class="table"><thead><tr><th>Result</th><th>Early</th><th>After-engage deaths</th><th>FPS</th></tr></thead><tbody><tr><td class="c-green">W</td><td>1</td><td>0</td><td>60.1</td></tr><tr><td class="c-red">L</td><td>2</td><td>2</td><td>57.3</td></tr><tr><td class="c-green">W</td><td>1</td><td>1</td><td>59.8</td></tr><tr><td class="c-green">W</td><td>1</td><td>0</td><td>60.5</td></tr></tbody></table></div><div class="card simple-only"><div class="eyebrow">Simple view</div><div class="big-kpi c-green">↓53%</div><div>частота главной ошибки относительно baseline</div><p class="small-note">Демонстрационная продуктовая метрика, а не результат реального пилота.</p></div></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-note"><b>Demo disclosure.</b> Это интерактивный продуктовый прототип, а не готовая ML-система. Числа и incident-разметка используются как согласованные демонстрационные данные концепции. YouTube-видео — публичный визуальный reference; прототип не утверждает, что автоматически извлек показанные метрики именно из этого ролика.</div>
+</div>
+<script>
+const app=document.getElementById('app');
+function openPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.tab,.jump').forEach(b=>b.addEventListener('click',()=>openPage(b.dataset.page)));
+document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));b.classList.add('active');const pro=b.dataset.mode==='pro';app.classList.toggle('pro',pro);}));
+document.querySelectorAll('.incident').forEach(i=>i.addEventListener('click',()=>{document.querySelectorAll('.incident').forEach(x=>x.classList.remove('active'));i.classList.add('active')}));
+</script>
+</body>
+</html>
